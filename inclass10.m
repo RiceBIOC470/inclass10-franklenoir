@@ -2,17 +2,42 @@
 %array stored in a .mat file. Image these are measurements for 300 genes are 8 different time
 %points
 
+%Walter Frank Lenoir
+
 %1. Use matlab to perform pca on this data, getting the transformation
 %matrix, the transformed data, and the eigenvalues.
+load('example_dat.mat');
+[coeff, sc, eig] = pca(dat);
 
 %2. Look at the eigenvalues - how many dimensions are necessary to explain
 %the data? 
+
+% 2 dimensions should be enough. eig values 3 - 8 do not have very high
+% PCA magnitude compared to 1 - 2, and likely are sufficient in explaining
+% variance.
 
 %3. Using kmeans clustering to cluster the data into 3 clusters. 
 % Make a plot of the first coordinate of the raw data vs the second color coded
 % by which cluster it is in. Make the same plot but use the first two
 % principle components instead. 
 
+ids = kmeans(sc,3);
+figure;
+scatter(dat(:,1),dat(:,2),[],ids(:,1),'filled');
+
+figure;
+scatter(sc(:,1),sc(:,2),[],ids(:,1),'filled');
+
 %4. Repeat part 3 but use 7 clusters. Which is a more appropriate number of
 %clusters for the data?
 
+ids = kmeans(sc,7);
+figure;
+scatter(dat(:,1),dat(:,2),[],ids(:,1),'filled');
+
+figure;
+scatter(sc(:,1),sc(:,2),[],ids(:,1),'filled');
+
+
+%Based on the PCA plots, 3 clusters is better than 7, as there were 3
+%distinct groups. 
